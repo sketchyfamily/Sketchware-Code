@@ -1,0 +1,11 @@
+final android.support.v4.widget.SwipeRefreshLayout sr = new android.support.v4.widget.SwipeRefreshLayout(this);
+sr.setLayoutParams(new LinearLayout.LayoutParams(android.widget.LinearLayout.LayoutParams.MATCH_PARENT, android.widget.LinearLayout.LayoutParams.MATCH_PARENT));
+linear1.addView(sr);
+final WebView wb = (WebView)findViewById(R.id.webview1);
+wb.getSettings().setJavaScriptEnabled(true);
+linear1.removeView(wb);
+linear1.post(new Runnable() { @Override public void run() { sr.addView(wb); } });
+wb.setWebViewClient(new WebViewClient() { public void onPageFinished(WebView view, String url) { sr.setRefreshing(false);
+}});
+wb.loadUrl("http://www.google.com");
+sr.setOnRefreshListener( new android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener() { @Override public void onRefresh() { wb.reload(); } } );
